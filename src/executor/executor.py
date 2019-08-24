@@ -1,0 +1,28 @@
+from src.commands.del_profile import DelProfile
+from src.commands.add_profile import AddProfile
+from src.commands.use_profile import UseProfile
+from src.commands.show_profile import ShowProfile
+from src.commands.show_version import ShowVersion
+from src.commands.list_profiles import ListProfiles
+from src.commands.update_profile import UpdateProfile
+from src.commands.current_profile import CurrentProfile
+from src.commands.destroy_profiles import DestroyProfiles
+
+
+def execute_command(args):
+    commands = {
+        "add": AddProfile,
+        "use": UseProfile,
+        "del": DelProfile,
+        "show": ShowProfile,
+        "list": ListProfiles,
+        "version": ShowVersion,
+        "update": UpdateProfile,
+        "current": CurrentProfile,
+        "destroy": DestroyProfiles,
+    }
+
+    command = commands.get(args.command, None)
+    if command:
+        instance = command(args)
+        instance.execute()
