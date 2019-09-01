@@ -2,6 +2,9 @@ language: python
 
 install:
   - pip install pytest
+  - pip install codecov
   - pip install pytest-cov
 
-script: pytest --cov-report term-missing --cov=src tests/
+script:
+  - pytest --cov-report term-missing --cov=src tests/
+  - codecov
