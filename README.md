@@ -4,6 +4,9 @@
     <p align="center">
         <a href="https://github.com/popadi/git-profile">
             <img src="https://travis-ci.com/popadi/git-profile.svg?branch=master" alt="Build">
+            <a href="https://codecov.io/gh/popadi/git-profile">
+                <img src="https://codecov.io/gh/popadi/git-profile/branch/master/graph/badge.svg" />
+            </a>
             <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License">
         </a>
     </p>
