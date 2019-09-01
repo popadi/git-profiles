@@ -2,9 +2,11 @@ language: python
 
 install:
   - pip install pytest
-  - pip install codecov
   - pip install pytest-cov
+  - pip install python-coveralls
 
 script:
-  - pytest --cov-report term-missing --cov=src tests/
-  - codecov
+  - pytest --cov-report term --cov=src tests/
+
+after_success:
+  - coveralls
