@@ -3,5 +3,10 @@ language: python
 install:
   - pip install pytest
   - pip install pytest-cov
+  - pip install python-coveralls
 
-script: pytest --cov-report term-missing --cov=src tests/
+script:
+  - pytest --cov-report term --cov-report xml --cov=src tests/
+
+after_success:
+  - coveralls
