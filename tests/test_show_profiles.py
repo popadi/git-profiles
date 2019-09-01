@@ -1,6 +1,7 @@
 import os
 import sys
 import pytest
+from random import randrange
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
@@ -19,7 +20,7 @@ def prepare():
     # Generate 10 profiles
     for i in range(10):
         test = "test-local-{0}".format(i)
-        profile = Profile(test, test, None, test)
+        profile = Profile(test, test, test, test)
         profiles_to_add.append(profile)
 
     for p in profiles_to_add:
@@ -32,40 +33,38 @@ def prepare():
         git.del_profile("profile.{0}".format(p.profile_name))
 
 
-class TestListProfiles:
+class TestShowProfile:
     def test_invalid_config(self, capsys):
         arg_parser = parser.get_arguments_parser()
         arguments = arg_parser.parse_args(["-f", "/abc/xyz/pqr/def", "list"])
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()
+        assert not err
         assert msg.ERR_NO_GITCONFIG in out
 
-    def test_no_profiles(self, capsys):
-        fake_config = "./fake_config"
-        with open(fake_config, 'w+') as f:
-            pass
-
-        arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["-f", fake_config, "list"])
-        executor.execute_command(arguments)
-
-        out, err = capsys.readouterr()
-        assert msg.INFO_NO_PROFILES in out
-
-        try:
-            os.remove(fake_config)
-        except OSError:
-            pass
-
-    def test_list_profiles(self, capsys):
-        arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["list"])
-        executor.execute_command(arguments)
-
-        out, err = capsys.readouterr()
-        assert msg.INFO_AVAIL_PROFILES in out
-
+    def test_show_ok(self, capsys):
         for i in range(10):
             test = "test-local-{0}".format(i)
-            assert test in out
+            arg_parser = parser.get_arguments_parser()
+            arguments = arg_parser.parse_args(["show", test])
+            executor.execute_command(arguments)
+
+            out, err = capsys.readouterr()
+            assert not err
+            assert "Name: {0}".format(test) in out
+            assert "Mail: {0}".format(test) in out
+            assert "Signing key: {0}".format(test) in out
+
+    def test_show_exists(self, capsys):
+        arg_parser = parser.get_arguments_parser()
+        fake_profile = "profile-{0}".format(randrange(100000))
+
+        arguments = arg_parser.parse_args(["show", fake_profile])
+        executor.execute_command(arguments)
+
+        out, err = capsys.readouterr()
+        fail_mesg = msg.ERR_NO_PROFILE.format(fake_profile)
+
+        assert fail_mesg in out
+        assert not err

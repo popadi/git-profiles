@@ -12,7 +12,7 @@ class Profile:
         output = "\tName: {0}\n".format(self.user)
         output += "\tMail: {0}\n".format(self.mail)
         if self.skey:
-            output += "\tMail: {0}\n".format(self.skey)
+            output += "\tSigning key: {0}\n".format(self.skey)
 
         return output
 
