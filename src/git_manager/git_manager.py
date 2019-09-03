@@ -38,6 +38,10 @@ class GitManager:
         else:
             if isfile(self.config_file_path):
                 config_file_path = self.config_file_path
+            else:
+                if not self.quiet:
+                    print(msg.ERR_NO_GITCONFIG.format(self.config_file_path))
+                exit(-1)
 
         if config_file_path:
             self.config_command_prefix = ["git", "config", "-f", config_file_path]
