@@ -1,15 +1,16 @@
 import io
 import os
 import sys
+
 import pytest
+
+import src.utils.messages as msg
+from src.executor import executor, parser
+from src.git_manager.git_manager import GitManager
+from src.profile.profile import Profile
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + "/../")
-
-from src.git_manager.git_manager import GitManager
-from src.executor import executor, parser
-from src.profile.profile import Profile
-import src.utils.messages as msg
 
 
 @pytest.fixture(autouse=True)

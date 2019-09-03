@@ -1,7 +1,7 @@
-from sys import exit
-from re import search
 from os.path import expanduser, isfile
-from subprocess import run, PIPE, TimeoutExpired, CalledProcessError
+from re import search
+from subprocess import PIPE, CalledProcessError, TimeoutExpired, run
+from sys import exit
 
 import src.utils.messages as msg
 from src.profile.profile import Profile

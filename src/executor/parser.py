@@ -1,4 +1,5 @@
 import argparse
+
 import src.utils.messages as msg
 from src.__about__ import __version__
 

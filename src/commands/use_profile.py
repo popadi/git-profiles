@@ -1,5 +1,5 @@
-from src.commands.base_command import BaseCommand
 import src.utils.messages as msg
+from src.commands.base_command import BaseCommand
 
 
 class UseProfile(BaseCommand):

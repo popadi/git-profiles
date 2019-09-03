@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from src.git_manager.git_manager import GitManager
 
 

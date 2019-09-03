@@ -1,5 +1,5 @@
-from src.commands.base_command import BaseCommand
 import src.utils.messages as msg
+from src.commands.base_command import BaseCommand
 
 
 class CurrentProfile(BaseCommand):
@@ -22,7 +22,7 @@ class CurrentProfile(BaseCommand):
             else:
                 print(msg.INFO_PROFILE_CURR_LOC)
         else:
-            profile = self.git_manager.get_profile("user")
             print(msg.INFO_PROFILE_NOSET)
+            return
 
         print(profile)

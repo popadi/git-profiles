@@ -1,6 +1,6 @@
 import src.utils.messages as msg
-from src.profile.profile import Profile
 from src.commands.base_command import BaseCommand
+from src.profile.profile import Profile
 
 
 class UpdateProfile(BaseCommand):
