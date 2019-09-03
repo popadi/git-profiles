@@ -4,7 +4,7 @@ import sys
 import pytest
 
 myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
+sys.path.insert(0, myPath + "/../")
 
 from src.git_manager.git_manager import GitManager
 from src.executor import executor, parser
@@ -33,7 +33,7 @@ class TestAddProfile:
         arguments = arg_parser.parse_args(["add", "test_add_profile_ok"])
 
         fake_input = io.StringIO("\n".join(["test_add_profile_ok"] * 3))
-        monkeypatch.setattr('sys.stdin', fake_input)
+        monkeypatch.setattr("sys.stdin", fake_input)
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()
@@ -58,7 +58,7 @@ class TestAddProfile:
         arg_parser = parser.get_arguments_parser()
         arguments = arg_parser.parse_args(["add", "test_add_profile_ok"])
         fake_input = io.StringIO("\n".join(["test_add_profile_ok"] * 3))
-        monkeypatch.setattr('sys.stdin', fake_input)
+        monkeypatch.setattr("sys.stdin", fake_input)
         executor.execute_command(arguments)
 
         # Try to add it again
@@ -85,7 +85,7 @@ class TestAddProfile:
         arguments = arg_parser.parse_args(["-q", "add", "test_add_profile_ok"])
 
         fake_input = io.StringIO("\n".join(["test_add_profile_ok"] * 3))
-        monkeypatch.setattr('sys.stdin', fake_input)
+        monkeypatch.setattr("sys.stdin", fake_input)
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()

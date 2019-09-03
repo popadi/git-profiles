@@ -8,11 +8,9 @@ class BaseCommand(ABC):
         self.quiet = args.quiet
         self.globally = args.globally
 
-        self.git_manager = GitManager({
-            "config": args.file,
-            "quiet": args.quiet,
-            "globally": args.globally,
-        })
+        self.git_manager = GitManager(
+            {"config": args.file, "quiet": args.quiet, "globally": args.globally}
+        )
 
     @abstractmethod
     def execute(self):

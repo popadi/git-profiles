@@ -30,7 +30,7 @@ class GitManager:
         if not self.config_file_path:
             try:
                 default = "{0}/.gpconfig".format(expanduser("~"))
-                with open(default, "w+"):
+                with open(default, "a+"):
                     pass
                 config_file_path = default
             except IOError as e:
@@ -49,6 +49,7 @@ class GitManager:
         the program will exit with an appropriate exit code.
         :param cmd: command to be run as an array
         """
+        print(cmd)
         try:
             result = run(cmd, stdout=PIPE)
             return result.stdout.decode("utf-8")
@@ -66,7 +67,7 @@ class GitManager:
         Check if the given profile exists in the config file.
         :return: boolean representing the checking answer.
         """
-        command = ["git", "config", "--list"]
+        command = [*self.config_command_prefix, "--list"]
         properties = self.run_command(command)
 
         if not properties:
@@ -117,10 +118,12 @@ class GitManager:
         pn = profile.profile_name
         ph = "profile.{0}.{1}"
 
-        self.run_command([*self.cfg_global_cmd, ph.format(pn, "name"), profile.user])
-        self.run_command([*self.cfg_global_cmd, ph.format(pn, "email"), profile.mail])
+        self.run_command([*self.config_command_prefix, ph.format(pn, "name"), profile.user])
+        self.run_command([*self.config_command_prefix, ph.format(pn, "email"), profile.mail])
         if profile.skey:
-            self.run_command([*self.cfg_global_cmd, ph.format(pn, "signingkey"), profile.skey])
+            self.run_command(
+                [*self.config_command_prefix, ph.format(pn, "signingkey"), profile.skey]
+            )
 
     def del_profile(self, profile_name):
         """
@@ -154,6 +157,7 @@ class GitManager:
         :param globally: boolean representing the get mode
         :return: name of the current profile or empty string
         """
-        cmd_prefix = self.cfg_global_cmd if globally else self.cfg_local_cmd
-        command = [*cmd_prefix, "current-profile.name"]
-        return self.run_command(command).strip()
+        # cmd_prefix = self.cfg_global_cmd if globally else self.cfg_local_cmd
+        # command = [*self.config_command_prefix, "current-profile.name"]
+        # return self.run_command(command).strip()
+        return ""

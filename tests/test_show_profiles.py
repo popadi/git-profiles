@@ -4,7 +4,7 @@ import pytest
 from random import randrange
 
 myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
+sys.path.insert(0, myPath + "/../")
 
 from src.git_manager.git_manager import GitManager
 from src.executor import executor, parser

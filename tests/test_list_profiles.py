@@ -3,7 +3,7 @@ import sys
 import pytest
 
 myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
+sys.path.insert(0, myPath + "/../")
 
 from src.git_manager.git_manager import GitManager
 from src.executor import executor, parser
@@ -44,7 +44,7 @@ class TestListProfiles:
 
     def test_no_profiles(self, capsys):
         fake_config = "./fake_config"
-        with open(fake_config, 'w+') as f:
+        with open(fake_config, "w+") as f:
             pass
 
         arg_parser = parser.get_arguments_parser()
