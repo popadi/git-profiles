@@ -83,10 +83,9 @@ class GitManager:
         :param profile_name:
         :return:
         """
-        default = GitManager.cfg_global_cmd
-        user = self.run_command([*default, profile_name + ".name"])
-        mail = self.run_command([*default, profile_name + ".email"])
-        skey = self.run_command([*default, profile_name + ".signingkey"])
+        user = self.run_command([*self.config_command_prefix, profile_name + ".name"])
+        mail = self.run_command([*self.config_command_prefix, profile_name + ".email"])
+        skey = self.run_command([*self.config_command_prefix, profile_name + ".signingkey"])
 
         profile = Profile(user, mail, skey, profile_name)
         return profile
@@ -107,7 +106,8 @@ class GitManager:
             self.run_command([*cmd_prefix, "user.signingkey", profile.skey])
 
         # Update the current-profile entry in the config file
-        self.run_command([*cmd_prefix, "current-profile.name", profile.profile_name])
+        current = "current-profile-{0}.name".format("globally" if globally else "locally")
+        self.run_command([*self.config_command_prefix, current, profile.profile_name])
 
     def add_profile(self, profile):
         """
@@ -157,7 +157,6 @@ class GitManager:
         :param globally: boolean representing the get mode
         :return: name of the current profile or empty string
         """
-        # cmd_prefix = self.cfg_global_cmd if globally else self.cfg_local_cmd
-        # command = [*self.config_command_prefix, "current-profile.name"]
-        # return self.run_command(command).strip()
-        return ""
+        current = "current-profile-{0}.name".format("globally" if globally else "locally")
+        command = [*self.config_command_prefix, current]
+        return self.run_command(command).strip()
