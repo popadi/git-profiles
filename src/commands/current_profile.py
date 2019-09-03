@@ -1,5 +1,5 @@
-from src.commands.base_command import BaseCommand
 import src.utils.messages as msg
+from src.commands.base_command import BaseCommand
 
 
 class CurrentProfile(BaseCommand):
@@ -10,9 +10,6 @@ class CurrentProfile(BaseCommand):
         for a project. The `-g/--global` parameter is used to specify
         how the search should be made.
         """
-        if not self.git_manager.has_valid_config():
-            return
-
         # Get the current set profile by this package
         current = self.git_manager.get_current(self.args.globally)
 
@@ -25,7 +22,7 @@ class CurrentProfile(BaseCommand):
             else:
                 print(msg.INFO_PROFILE_CURR_LOC)
         else:
-            profile = self.git_manager.get_profile("user")
             print(msg.INFO_PROFILE_NOSET)
+            return
 
         print(profile)

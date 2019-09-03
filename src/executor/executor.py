@@ -1,11 +1,11 @@
-from src.commands.del_profile import DelProfile
 from src.commands.add_profile import AddProfile
-from src.commands.use_profile import UseProfile
-from src.commands.show_profile import ShowProfile
-from src.commands.list_profiles import ListProfiles
-from src.commands.update_profile import UpdateProfile
 from src.commands.current_profile import CurrentProfile
+from src.commands.del_profile import DelProfile
 from src.commands.destroy_profiles import DestroyProfiles
+from src.commands.list_profiles import ListProfiles
+from src.commands.show_profile import ShowProfile
+from src.commands.update_profile import UpdateProfile
+from src.commands.use_profile import UseProfile
 
 
 def execute_command(args):

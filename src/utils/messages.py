@@ -33,13 +33,13 @@ HELP_CONFIG = (
 )
 
 ERR_PROFILE_EXISTS = "[ERROR] The profile {0} exists. Did you mean -u/--update?"
-ERR_NO_GITCONFIG = "[ERROR] .gitconfig was not found or is not a valid file"
 ERR_RUN_TIMEOUT = "[ERROR] A timeout occurred while running the command"
 ERR_RUN_FAILED = "[ERROR] The process returned a non-zero exit status"
+ERR_NO_GITCONFIG = "[ERROR] {0} was not found or is not a valid file"
 ERR_NO_PROFILE = "[ERROR] Profile {0} was not found"
 
-INFO_NO_PROFILES = "No profiles were found. Create one using " "git-profiles -add [NAME]"
-INFO_PROFILE_NOSET = "No profile is set. Standard settings are used."
+INFO_PROFILE_NOSET = "No profile set with git-profile was found. Run the use command and try again."
+INFO_NO_PROFILES = "No profiles were found. Create one using " "git-profiles add [NAME]"
 INFO_DESTROY_SUCCESS = "Successfully deleted {0} profiles"
 INFO_ADD_SUCCESS = "Successfully created profile {0}:"
 INFO_DEL_SUCCESS = "Successfully deleted profile {0}"

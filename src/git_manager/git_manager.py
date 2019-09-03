@@ -1,7 +1,7 @@
-from sys import exit
-from re import search
 from os.path import expanduser, isfile
-from subprocess import run, PIPE, TimeoutExpired, CalledProcessError
+from re import search
+from subprocess import PIPE, CalledProcessError, TimeoutExpired, run
+from sys import exit
 
 import src.utils.messages as msg
 from src.profile.profile import Profile
@@ -11,30 +11,41 @@ class GitManager:
     cfg_global_cmd = ["git", "config", "--global"]
     cfg_local_cmd = ["git", "config"]
 
-    def __init__(self, config_file_path=None, quiet=True):
-        self.config_file_path = config_file_path
-        self.config_file_valid = False
-        self.quiet = quiet
+    def __init__(self, config):
+        self.config_file_path = config.get("config", None)
+        self.globally = config.get("globally", False)
+        self.quiet = config.get("quiet", False)
+        self.config_command_prefix = []
+        self.initialize()
 
-    def has_valid_config(self):
+    def initialize(self):
         """
-        Check if the given config file path is a valid file. If
-        no config is provided, a .gitconfig file in the home dir
-        will be searched.
-        :return: boolean representing the validation answer.
+        Initialize the git manager with a configuration file. If
+        no configuration file is given, try to open the default
+        one in the home folder. If it doesn't exist, try to create
+        it or exit if any error occurs.
         """
-        config_path = (
-            self.config_file_path
-            if self.config_file_path
-            else "{0}/.gitconfig".format(expanduser("~"))
-        )
+        config_file_path = None
 
-        self.config_file_valid = isfile(config_path)
-        if not self.config_file_valid and not self.quiet:
-            print(msg.ERR_NO_GITCONFIG)
+        if not self.config_file_path:
+            try:
+                default = "{0}/.gpconfig".format(expanduser("~"))
+                with open(default, "a+"):
+                    pass
+                config_file_path = default
+            except IOError as e:
+                exit(e.returncode)
+        else:
+            if isfile(self.config_file_path):
+                config_file_path = self.config_file_path
+            else:
+                if not self.quiet:
+                    print(msg.ERR_NO_GITCONFIG.format(self.config_file_path))
+                exit(-1)
 
-        self.config_file_path = config_path
-        return self.config_file_valid
+        if config_file_path:
+            self.config_command_prefix = ["git", "config", "-f", config_file_path]
+            self.config_file_path = config_file_path
 
     def run_command(self, cmd):
         """
@@ -59,8 +70,8 @@ class GitManager:
         Check if the given profile exists in the config file.
         :return: boolean representing the checking answer.
         """
-        command_args = ["git", "config", "--list"]
-        properties = self.run_command(command_args)
+        command = [*self.config_command_prefix, "--list"]
+        properties = self.run_command(command)
 
         if not properties:
             return False
@@ -75,10 +86,9 @@ class GitManager:
         :param profile_name:
         :return:
         """
-        default = GitManager.cfg_global_cmd
-        user = self.run_command([*default, profile_name + ".name"])
-        mail = self.run_command([*default, profile_name + ".email"])
-        skey = self.run_command([*default, profile_name + ".signingkey"])
+        user = self.run_command([*self.config_command_prefix, profile_name + ".name"])
+        mail = self.run_command([*self.config_command_prefix, profile_name + ".email"])
+        skey = self.run_command([*self.config_command_prefix, profile_name + ".signingkey"])
 
         profile = Profile(user, mail, skey, profile_name)
         return profile
@@ -99,7 +109,8 @@ class GitManager:
             self.run_command([*cmd_prefix, "user.signingkey", profile.skey])
 
         # Update the current-profile entry in the config file
-        self.run_command([*cmd_prefix, "current-profile.name", profile.profile_name])
+        current = "current-profile-{0}.name".format("globally" if globally else "locally")
+        self.run_command([*self.config_command_prefix, current, profile.profile_name])
 
     def add_profile(self, profile):
         """
@@ -110,10 +121,12 @@ class GitManager:
         pn = profile.profile_name
         ph = "profile.{0}.{1}"
 
-        self.run_command([*self.cfg_global_cmd, ph.format(pn, "name"), profile.user])
-        self.run_command([*self.cfg_global_cmd, ph.format(pn, "email"), profile.mail])
+        self.run_command([*self.config_command_prefix, ph.format(pn, "name"), profile.user])
+        self.run_command([*self.config_command_prefix, ph.format(pn, "email"), profile.mail])
         if profile.skey:
-            self.run_command([*self.cfg_global_cmd, ph.format(pn, "signingkey"), profile.skey])
+            self.run_command(
+                [*self.config_command_prefix, ph.format(pn, "signingkey"), profile.skey]
+            )
 
     def del_profile(self, profile_name):
         """
@@ -122,7 +135,7 @@ class GitManager:
         profile, using this package.
         :param profile_name: the name of the profile to be deleted.
         """
-        command = [*self.cfg_global_cmd, "--remove-section", profile_name]
+        command = [*self.config_command_prefix, "--remove-section", profile_name]
         self.run_command(command)
 
     def list_profiles(self):
@@ -147,6 +160,6 @@ class GitManager:
         :param globally: boolean representing the get mode
         :return: name of the current profile or empty string
         """
-        cmd_prefix = self.cfg_global_cmd if globally else self.cfg_local_cmd
-        command = [*cmd_prefix, "current-profile.name"]
+        current = "current-profile-{0}.name".format("globally" if globally else "locally")
+        command = [*self.config_command_prefix, current]
         return self.run_command(command).strip()

@@ -1,6 +1,8 @@
+import io
 import os
 import sys
 import pytest
+from random import randrange
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + "/../")
@@ -27,37 +29,30 @@ def prepare():
 
     yield git
 
-    # Delete the added profiles
-    for p in profiles_to_add:
-        git.del_profile("profile.{0}".format(p.profile_name))
 
-
-class TestListProfiles:
-    def test_no_profiles(self, capsys):
-        fake_config = "./fake_config"
-        with open(fake_config, "w+") as f:
-            pass
-
+class TestDelProfile:
+    def test_del_profile_not_found(self, capsys):
+        test = "profile-{0}".format(randrange(100000))
         arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["-f", fake_config, "list"])
+        arguments = arg_parser.parse_args(["del", test])
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()
-        assert msg.INFO_NO_PROFILES in out
+        delmsg = msg.ERR_NO_PROFILE.format(test)
 
-        try:
-            os.remove(fake_config)
-        except OSError:
-            pass
+        assert delmsg in out
+        assert not err
 
-    def test_list_profiles(self, capsys):
+    def test_del_profile_ok(self, capsys):
         arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["list"])
-        executor.execute_command(arguments)
-
-        out, err = capsys.readouterr()
-        assert msg.INFO_AVAIL_PROFILES in out
 
         for i in range(10):
             test = "test-local-{0}".format(i)
-            assert test in out
+            arguments = arg_parser.parse_args(["del", test])
+
+            executor.execute_command(arguments)
+            delmsg = msg.INFO_DEL_SUCCESS.format(test)
+
+            out, err = capsys.readouterr()
+            assert delmsg in out
+            assert not err

@@ -4,36 +4,26 @@ import sys
 import pytest
 
 myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
+sys.path.insert(0, myPath + "/../")
 
-from src.git_manager.git_manager import GitManager
-from src.executor import executor, parser
-from src.profile.profile import Profile
 import src.utils.messages as msg
+from src.executor import executor, parser
+from src.git_manager.git_manager import GitManager
 
 
 @pytest.fixture(autouse=True)
 def prepare():
-    git = GitManager()
+    git = GitManager({})
     yield git
 
 
 class TestAddProfile:
-    def test_invalid_config(self, capsys):
-        arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["-f", "/abc/xyz/pqr/def", "add", "test"])
-        executor.execute_command(arguments)
-
-        out, err = capsys.readouterr()
-        assert msg.ERR_NO_GITCONFIG in out
-        assert not err
-
     def test_add_profile_ok(self, capsys, monkeypatch):
         arg_parser = parser.get_arguments_parser()
         arguments = arg_parser.parse_args(["add", "test_add_profile_ok"])
 
         fake_input = io.StringIO("\n".join(["test_add_profile_ok"] * 3))
-        monkeypatch.setattr('sys.stdin', fake_input)
+        monkeypatch.setattr("sys.stdin", fake_input)
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()
@@ -58,7 +48,7 @@ class TestAddProfile:
         arg_parser = parser.get_arguments_parser()
         arguments = arg_parser.parse_args(["add", "test_add_profile_ok"])
         fake_input = io.StringIO("\n".join(["test_add_profile_ok"] * 3))
-        monkeypatch.setattr('sys.stdin', fake_input)
+        monkeypatch.setattr("sys.stdin", fake_input)
         executor.execute_command(arguments)
 
         # Try to add it again
@@ -80,12 +70,24 @@ class TestAddProfile:
         assert delmsg in out
         assert not err
 
+    def test_add_profile_no_param(self, capsys, monkeypatch):
+        arg_parser = parser.get_arguments_parser()
+        arguments = arg_parser.parse_args(["add", "test_add_profile_ok"])
+
+        fake_input = ["\n", "\n", "\n", "x", "x", "x"]
+        monkeypatch.setattr("sys.stdin", io.StringIO("\n".join(fake_input)))
+        executor.execute_command(arguments)
+
+        out, err = capsys.readouterr()
+        assert msg.BUILD_REQUIRED in out
+        assert not err
+
     def test_add_profile_quiet(self, capsys, monkeypatch):
         arg_parser = parser.get_arguments_parser()
         arguments = arg_parser.parse_args(["-q", "add", "test_add_profile_ok"])
 
         fake_input = io.StringIO("\n".join(["test_add_profile_ok"] * 3))
-        monkeypatch.setattr('sys.stdin', fake_input)
+        monkeypatch.setattr("sys.stdin", fake_input)
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()
