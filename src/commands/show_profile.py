@@ -5,10 +5,6 @@ import src.utils.messages as msg
 class ShowProfile(BaseCommand):
     def execute(self):
         """Show the details of the given profile name, if it exists."""
-        if not self.git_manager.has_valid_config():
-            return
-
-        # Check if the profile exists
         profile_name = self.args.profile[0]
         if not self.git_manager.check_profile_exist(profile_name):
             if not self.quiet:
