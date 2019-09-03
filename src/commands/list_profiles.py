@@ -5,8 +5,6 @@ from src.commands.base_command import BaseCommand
 class ListProfiles(BaseCommand):
     def execute(self):
         """Lists the available git-profile profiles."""
-        if not self.git_manager.has_valid_config():
-            return
 
         # Try to get the locally and globally active profiles
         active_local = self.git_manager.get_current(False)

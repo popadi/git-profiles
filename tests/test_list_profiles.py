@@ -13,7 +13,7 @@ import src.utils.messages as msg
 
 @pytest.fixture(autouse=True)
 def prepare():
-    git = GitManager()
+    git = GitManager({})
     profiles_to_add = []
 
     # Generate 10 profiles
@@ -39,7 +39,8 @@ class TestListProfiles:
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()
-        assert msg.ERR_NO_GITCONFIG in out
+        assert not out
+        assert not err
 
     def test_no_profiles(self, capsys):
         fake_config = "./fake_config"

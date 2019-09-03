@@ -21,11 +21,11 @@ def prepare():
 class TestAddProfile:
     def test_invalid_config(self, capsys):
         arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["-f", "/abc/xyz/pqr/def", "add", "test"])
+        arguments = arg_parser.parse_args(["-qf", "/abc/xyz/pqr/def", "add", "test"])
         executor.execute_command(arguments)
 
         out, err = capsys.readouterr()
-        assert msg.ERR_NO_GITCONFIG in out
+        assert not out
         assert not err
 
     def test_add_profile_ok(self, capsys, monkeypatch):

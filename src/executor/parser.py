@@ -5,7 +5,7 @@ from src.__about__ import __version__
 
 def get_arguments_parser():
     args_parser = argparse.ArgumentParser(description="git-profile usage:")
-    args_parser.add_argument("-f", "--config-file", nargs="?", metavar="PATH", help=msg.HELP_CONFIG)
+    args_parser.add_argument("-f", "--file", nargs="?", metavar="PATH", help=msg.HELP_CONFIG)
     args_parser.add_argument("-g", "--globally", action="store_true", help=msg.HELP_GLOBAL)
     args_parser.add_argument("-v", "--version", action="version", version=__version__)
     args_parser.add_argument("-q", "--quiet", action="store_true", help=msg.HELP_QUIET)

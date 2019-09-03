@@ -11,30 +11,37 @@ class GitManager:
     cfg_global_cmd = ["git", "config", "--global"]
     cfg_local_cmd = ["git", "config"]
 
-    def __init__(self, config_file_path=None, quiet=True):
-        self.config_file_path = config_file_path
-        self.config_file_valid = False
-        self.quiet = quiet
+    def __init__(self, config):
+        self.config_file_path = config.get("config", None)
+        self.globally = config.get("globally", False)
+        self.quiet = config.get("quiet", False)
+        self.config_command_prefix = []
+        self.initialize()
 
-    def has_valid_config(self):
+    def initialize(self):
         """
-        Check if the given config file path is a valid file. If
-        no config is provided, a .gitconfig file in the home dir
-        will be searched.
-        :return: boolean representing the validation answer.
+        Initialize the git manager with a configuration file. If
+        no configuration file is given, try to open the default
+        one in the home folder. If it doesn't exist, try to create
+        it or exit if any error occurs.
         """
-        config_path = (
-            self.config_file_path
-            if self.config_file_path
-            else "{0}/.gitconfig".format(expanduser("~"))
-        )
+        config_file_path = None
 
-        self.config_file_valid = isfile(config_path)
-        if not self.config_file_valid and not self.quiet:
-            print(msg.ERR_NO_GITCONFIG)
+        if not self.config_file_path:
+            try:
+                default = "{0}/.gpconfig".format(expanduser("~"))
+                with open(default, "w+"):
+                    pass
+                config_file_path = default
+            except IOError as e:
+                exit(e.returncode)
+        else:
+            if isfile(self.config_file_path):
+                config_file_path = self.config_file_path
 
-        self.config_file_path = config_path
-        return self.config_file_valid
+        if config_file_path:
+            self.config_command_prefix = ["git", "config", "-f", config_file_path]
+            self.config_file_path = config_file_path
 
     def run_command(self, cmd):
         """
@@ -59,8 +66,8 @@ class GitManager:
         Check if the given profile exists in the config file.
         :return: boolean representing the checking answer.
         """
-        command_args = ["git", "config", "--list"]
-        properties = self.run_command(command_args)
+        command = ["git", "config", "--list"]
+        properties = self.run_command(command)
 
         if not properties:
             return False
@@ -122,8 +129,8 @@ class GitManager:
         profile, using this package.
         :param profile_name: the name of the profile to be deleted.
         """
-        command = [*self.cfg_global_cmd, "--remove-section", profile_name]
-        self.run_command(command)
+        # TODO
+        self.run_command([])
 
     def list_profiles(self):
         """

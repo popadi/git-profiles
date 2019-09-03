@@ -38,7 +38,7 @@ ERR_RUN_TIMEOUT = "[ERROR] A timeout occurred while running the command"
 ERR_RUN_FAILED = "[ERROR] The process returned a non-zero exit status"
 ERR_NO_PROFILE = "[ERROR] Profile {0} was not found"
 
-INFO_NO_PROFILES = "No profiles were found. Create one using " "git-profiles -add [NAME]"
+INFO_NO_PROFILES = "No profiles were found. Create one using " "git-profiles add [NAME]"
 INFO_PROFILE_NOSET = "No profile is set. Standard settings are used."
 INFO_DESTROY_SUCCESS = "Successfully deleted {0} profiles"
 INFO_ADD_SUCCESS = "Successfully created profile {0}:"
