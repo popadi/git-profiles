@@ -10,9 +10,6 @@ class CurrentProfile(BaseCommand):
         for a project. The `-g/--global` parameter is used to specify
         how the search should be made.
         """
-        if not self.git_manager.has_valid_config():
-            return
-
         # Get the current set profile by this package
         current = self.git_manager.get_current(self.args.globally)
 
