@@ -19,8 +19,6 @@ class AddProfile(BaseCommand):
         profile = Profile.build_profile(profile_name)
         self.git_manager.add_profile(profile)
 
-        if self.quiet:
-            return
-
-        print(msg.INFO_ADD_SUCCESS.format(profile_name))
-        print(profile)
+        if not self.quiet:
+            print(msg.INFO_ADD_SUCCESS.format(profile_name))
+            print(profile)
