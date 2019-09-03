@@ -1,34 +1,23 @@
 import io
 import os
 import sys
-
 import pytest
-
-import src.utils.messages as msg
-from src.executor import executor, parser
-from src.git_manager.git_manager import GitManager
-from src.profile.profile import Profile
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + "/../")
 
+import src.utils.messages as msg
+from src.executor import executor, parser
+from src.git_manager.git_manager import GitManager
+
 
 @pytest.fixture(autouse=True)
 def prepare():
-    git = GitManager()
+    git = GitManager({})
     yield git
 
 
 class TestAddProfile:
-    def test_invalid_config(self, capsys):
-        arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["-qf", "/abc/xyz/pqr/def", "add", "test"])
-        executor.execute_command(arguments)
-
-        out, err = capsys.readouterr()
-        assert not out
-        assert not err
-
     def test_add_profile_ok(self, capsys, monkeypatch):
         arg_parser = parser.get_arguments_parser()
         arguments = arg_parser.parse_args(["add", "test_add_profile_ok"])
@@ -79,6 +68,18 @@ class TestAddProfile:
 
         delmsg = msg.INFO_DEL_SUCCESS.format("test_add_profile_ok")
         assert delmsg in out
+        assert not err
+
+    def test_add_profile_no_param(self, capsys, monkeypatch):
+        arg_parser = parser.get_arguments_parser()
+        arguments = arg_parser.parse_args(["add", "test_add_profile_ok"])
+
+        fake_input = ["\n", "\n", "\n", "x", "x", "x"]
+        monkeypatch.setattr("sys.stdin", io.StringIO("\n".join(fake_input)))
+        executor.execute_command(arguments)
+
+        out, err = capsys.readouterr()
+        assert msg.BUILD_REQUIRED in out
         assert not err
 
     def test_add_profile_quiet(self, capsys, monkeypatch):

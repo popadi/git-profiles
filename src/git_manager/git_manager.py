@@ -49,7 +49,6 @@ class GitManager:
         the program will exit with an appropriate exit code.
         :param cmd: command to be run as an array
         """
-        print(cmd)
         try:
             result = run(cmd, stdout=PIPE)
             return result.stdout.decode("utf-8")

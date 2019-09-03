@@ -1,15 +1,14 @@
 import os
 import sys
-
 import pytest
+
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + "/../")
 
 import src.utils.messages as msg
 from src.executor import executor, parser
 from src.git_manager.git_manager import GitManager
 from src.profile.profile import Profile
-
-myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + "/../")
 
 
 @pytest.fixture(autouse=True)
@@ -34,15 +33,6 @@ def prepare():
 
 
 class TestListProfiles:
-    def test_invalid_config(self, capsys):
-        arg_parser = parser.get_arguments_parser()
-        arguments = arg_parser.parse_args(["-f", "/abc/xyz/pqr/def", "list"])
-        executor.execute_command(arguments)
-
-        out, err = capsys.readouterr()
-        assert not out
-        assert not err
-
     def test_no_profiles(self, capsys):
         fake_config = "./fake_config"
         with open(fake_config, "w+") as f:

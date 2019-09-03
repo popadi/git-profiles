@@ -23,5 +23,4 @@ def execute_command(args):
     command = commands.get(args.command, None)
     if command:
         instance = command(args)
-        print(instance.git_manager.config_file_path)
         instance.execute()
