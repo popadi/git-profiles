@@ -9,10 +9,6 @@ class DelProfile(BaseCommand):
         isn't a profile with the given name, the user will be
         alerted.
         """
-        if not self.git_manager.has_valid_config():
-            return
-
-        # Check if the profile exists
         profile_name = self.args.profile[0]
         if not self.git_manager.check_profile_exist(profile_name):
             if not self.quiet:

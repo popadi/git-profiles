@@ -132,8 +132,8 @@ class GitManager:
         profile, using this package.
         :param profile_name: the name of the profile to be deleted.
         """
-        # TODO
-        self.run_command([])
+        command = [*self.config_command_prefix, "--remove-section", profile_name]
+        self.run_command(command)
 
     def list_profiles(self):
         """
