@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - checkout
-      - run: pip install --upgrade pip
+      - run: sudo pip install --upgrade pip
       - run: pip install poetry
       - restore_cache:
           keys:
