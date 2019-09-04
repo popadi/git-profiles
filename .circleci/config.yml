@@ -7,22 +7,12 @@ jobs:
 
     steps:
       - checkout
-      - run: sudo pip install --upgrade pip
+      - run: pip install --user --upgrade pip
       - run: pip install poetry
-      - restore_cache:
-          keys:
-            - deps-{{ checksum "poetry.lock" }}
-
       - run:
           name: Install Dependencies
           command: |
             poetry install
-
-      - save_cache:
-          key: deps-{{ checksum "poetry.lock" }}
-          paths:
-            - /home/circleci/.cache/pypoetry/virtualenvs
-
       - run:
           name: Run Pytest, report coverage
           command: |
