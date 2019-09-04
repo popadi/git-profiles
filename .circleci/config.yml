@@ -1,0 +1,12 @@
+version: 1
+jobs:
+  build:
+    steps:
+      - run:
+          name: run tests
+          command: pytest --junitxml=test-reports/junit.xml --cov-report term --cov-report xml --cov=src tests/
+      - store_test_results:
+          path: test-reports
+
+      - store_artifacts:
+          path: test-reports
