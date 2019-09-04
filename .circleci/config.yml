@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            poetry install
+            poetry install --dry-run
       - run:
           name: Run Pytest, report coverage
           command: |
