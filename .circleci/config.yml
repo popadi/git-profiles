@@ -5,11 +5,22 @@ jobs:
       - image: circleci/python:3.6.4
     steps:
       - checkout
-      - run: sudo pip install poetry
-      - run: poetry install
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "poetry.lock" }}
       - run:
-          name: run tests
-          command: pytest --junitxml=test-reports/junit.xml --cov-report term --cov-report xml --cov=src tests/
+          name: Install Dependencies
+          command: |
+            poetry install
+      - save_cache:
+          key: deps-{{ checksum "poetry.lock" }}
+          paths:
+            - /home/circleci/.cache/pypoetry/virtualenvs
+      - run:
+          name: Run Pytest, report coverage
+          command: |
+            poetry run coverage run --omit="/home/circleci/.cache/pypoetry/virtualenvs" -m pytest
+            poetry run coveralls
       - store_test_results:
           path: test-reports
 
