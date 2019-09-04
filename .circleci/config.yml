@@ -5,6 +5,8 @@ jobs:
       - image: circleci/python:3.6.4
     steps:
       - checkout
+      - run: pip install poetry
+      - run: poetry install
       - run:
           name: run tests
           command: pytest --junitxml=test-reports/junit.xml --cov-report term --cov-report xml --cov=src tests/
