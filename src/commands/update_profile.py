@@ -22,8 +22,6 @@ class UpdateProfile(BaseCommand):
         profile.update_profile()
         self.git_manager.add_profile(profile)
 
-        if self.quiet:
-            return
-
-        print(msg.INFO_UPD_SUCCESS.format(profile_name))
-        print(profile)
+        if not self.quiet:
+            print(msg.INFO_UPD_SUCCESS.format(profile_name))
+            print(profile)

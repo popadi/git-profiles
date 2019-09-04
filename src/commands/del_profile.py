@@ -18,6 +18,5 @@ class DelProfile(BaseCommand):
         full_profile = "profile.{0}".format(profile_name)
         self.git_manager.del_profile(full_profile)
 
-        if self.quiet:
-            return
-        print(msg.INFO_DEL_SUCCESS.format(profile_name))
+        if not self.quiet:
+            print(msg.INFO_DEL_SUCCESS.format(profile_name))
