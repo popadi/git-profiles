@@ -1,7 +1,7 @@
 version: 1
 
 jobs:
-  build-and-test:
+  build:
     docker:
       - image: circleci/python:3.6.8
 
