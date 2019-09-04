@@ -1,28 +1,28 @@
 version: 1
+
 jobs:
-  build:
+  build-and-test:
     docker:
-      - image: circleci/python:3.6.4
+      - image: circleci/python:3.6.8
+
     steps:
       - checkout
       - restore_cache:
           keys:
             - deps-{{ checksum "poetry.lock" }}
+
       - run:
           name: Install Dependencies
           command: |
             poetry install
+
       - save_cache:
           key: deps-{{ checksum "poetry.lock" }}
           paths:
             - /home/circleci/.cache/pypoetry/virtualenvs
+
       - run:
           name: Run Pytest, report coverage
           command: |
             poetry run coverage run --omit="/home/circleci/.cache/pypoetry/virtualenvs" -m pytest
             poetry run coveralls
-      - store_test_results:
-          path: test-reports
-
-      - store_artifacts:
-          path: test-reports
