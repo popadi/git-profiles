@@ -1,7 +1,10 @@
 version: 1
 jobs:
   build:
+    docker:
+      - image: circleci/python:3.6.4
     steps:
+      - checkout
       - run:
           name: run tests
           command: pytest --junitxml=test-reports/junit.xml --cov-report term --cov-report xml --cov=src tests/
