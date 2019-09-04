@@ -5,7 +5,7 @@ jobs:
       - image: circleci/python:3.6.4
     steps:
       - checkout
-      - run: pip install poetry
+      - run: sudo pip install poetry
       - run: poetry install
       - run:
           name: run tests
