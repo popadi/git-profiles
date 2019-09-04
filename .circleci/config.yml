@@ -7,6 +7,7 @@ jobs:
 
     steps:
       - checkout
+      - run: pip install poetry
       - restore_cache:
           keys:
             - deps-{{ checksum "poetry.lock" }}
