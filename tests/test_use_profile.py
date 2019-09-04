@@ -17,7 +17,7 @@ def prepare():
     yield git
 
 
-class TestListProfiles:
+class TestUseProfiles:
     def test_use_not_exist(self, capsys):
         arg_parser = parser.get_arguments_parser()
 

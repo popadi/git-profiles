@@ -28,7 +28,7 @@ def prepare():
     os.remove(".test-config")
 
 
-class TestListProfiles:
+class TestCurrentProfiles:
     def test_current_locally(self, capsys, prepare):
         arg_parser = parser.get_arguments_parser()
 
