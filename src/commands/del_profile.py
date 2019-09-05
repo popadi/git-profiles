@@ -3,7 +3,7 @@ from src.commands.base_command import BaseCommand
 
 
 class DelProfile(BaseCommand):
-    def execute(self):
+    def execute(self) -> None:
         """
         Delete a profile from the configuration file. If there
         isn't a profile with the given name, the user will be

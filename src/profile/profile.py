@@ -1,14 +1,17 @@
 import src.utils.messages as msg
+from typing import TypeVar
+
+P = TypeVar('P', bound='Profile')
 
 
 class Profile:
-    def __init__(self, name, mail, skey, profile):
+    def __init__(self, name: str, mail: str, skey: str, profile: str) -> None:
         self.profile_name = profile.replace("profile.", "")
         self.user = name.strip() if name else None
         self.mail = mail.strip() if mail else None
         self.skey = skey.strip() if skey else None
 
-    def __str__(self):
+    def __str__(self) -> str:
         output = "\tName: {0}\n".format(self.user)
         output += "\tMail: {0}\n".format(self.mail)
         if self.skey:
@@ -17,7 +20,7 @@ class Profile:
         return output
 
     @classmethod
-    def build_profile(cls, title):
+    def build_profile(cls, title: str) -> P:
         user = Profile.ask(msg.BUILD_USER_INPUT)
         mail = Profile.ask(msg.BUILD_MAIL_INPUT)
         skey = Profile.ask(msg.BUILD_SKEY_INPUT, False)
@@ -25,7 +28,7 @@ class Profile:
         profile = cls(user, mail, skey, title)
         return profile
 
-    def update_profile(self):
+    def update_profile(self) -> None:
         user = Profile.ask(msg.UPDATE_USER_INPUT.format(self.user))
         mail = Profile.ask(msg.UPDATE_MAIL_INPUT.format(self.mail))
         skey = Profile.ask(msg.UPDATE_SKEY_INPUT.format(self.skey), False)
@@ -35,7 +38,7 @@ class Profile:
         self.skey = skey
 
     @staticmethod
-    def ask(message, required=True):
+    def ask(message: str, required: bool = True) -> str:
         param = input(message)
         param = param.strip()
 
