@@ -4,21 +4,21 @@ from subprocess import PIPE, CalledProcessError, TimeoutExpired, run
 from sys import exit
 
 import src.utils.messages as msg
-from src.profile.profile import Profile
+from src.profile.profile import Profile, P
 
 
 class GitManager:
     cfg_global_cmd = ["git", "config", "--global"]
     cfg_local_cmd = ["git", "config"]
 
-    def __init__(self, config):
+    def __init__(self, config: dict) -> None:
         self.config_file_path = config.get("config", None)
         self.globally = config.get("globally", False)
         self.quiet = config.get("quiet", False)
         self.config_command_prefix = []
         self.initialize()
 
-    def initialize(self):
+    def initialize(self) -> None:
         """
         Initialize the git manager with a configuration file. If
         no configuration file is given, try to open the default
@@ -47,7 +47,7 @@ class GitManager:
             self.config_command_prefix = ["git", "config", "-f", config_file_path]
             self.config_file_path = config_file_path
 
-    def run_command(self, cmd):
+    def run_command(self, cmd: list) -> str:
         """
         Run the given shell command. If an error or a timeout occurs,
         the program will exit with an appropriate exit code.
@@ -65,7 +65,7 @@ class GitManager:
                 print(msg.ERR_RUN_FAILED)
             exit(e.returncode)
 
-    def check_profile_exist(self, profile_name):
+    def check_profile_exist(self, profile_name: str) -> bool:
         """
         Check if the given profile exists in the config file.
         :return: boolean representing the checking answer.
@@ -79,7 +79,7 @@ class GitManager:
         identifier = "profile.{0}".format(profile_name)
         return identifier in properties
 
-    def get_profile(self, profile_name="user"):
+    def get_profile(self, profile_name: str = "user") -> P:
         """
         Given the name of a profile, return an instance of a Profile
         with all its details (username, email, signing key).
@@ -93,7 +93,7 @@ class GitManager:
         profile = Profile(user, mail, skey, profile_name)
         return profile
 
-    def set_profile(self, profile, globally=False):
+    def set_profile(self, profile: P, globally: bool = False) -> None:
         """
         Set the given profile as being active either locally or globally.
         :param profile: profile to be used to set the required fields
@@ -112,7 +112,7 @@ class GitManager:
         current = "current-profile-{0}.name".format("globally" if globally else "locally")
         self.run_command([*self.config_command_prefix, current, profile.profile_name])
 
-    def add_profile(self, profile):
+    def add_profile(self, profile: P) -> None:
         """
         Run the necessary commands to add a new profile.
         :param profile: profile details to be added.
@@ -128,7 +128,7 @@ class GitManager:
                 [*self.config_command_prefix, ph.format(pn, "signingkey"), profile.skey]
             )
 
-    def del_profile(self, profile_name):
+    def del_profile(self, profile_name: str) -> None:
         """
         Deletes a section from the configuration file. In this case, the
         method deletes the section associated with a previously created
@@ -138,7 +138,7 @@ class GitManager:
         command = [*self.config_command_prefix, "--remove-section", profile_name]
         self.run_command(command)
 
-    def list_profiles(self):
+    def list_profiles(self) -> list:
         """
         Return the name of all the profiles created using this package.
         :return: list containing the name of previously created profiles.
@@ -154,7 +154,7 @@ class GitManager:
 
         return available_profiles
 
-    def get_current(self, globally=False):
+    def get_current(self, globally: bool = False) -> str:
         """
         Get the current set profile by this package.
         :param globally: boolean representing the get mode

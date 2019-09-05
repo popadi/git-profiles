@@ -3,7 +3,7 @@ from src.commands.base_command import BaseCommand
 
 
 class CurrentProfile(BaseCommand):
-    def execute(self):
+    def execute(self) -> None:
         """
         The command tries to get a previously set profile and to print
         its details. A profile may be set either globally or locally

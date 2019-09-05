@@ -3,7 +3,7 @@ from src.commands.base_command import BaseCommand
 
 
 class UseProfile(BaseCommand):
-    def execute(self):
+    def execute(self) -> None:
         """
         Sets the given profile name as the active one, if it exists.
         By default, it is set for the current project. If the global

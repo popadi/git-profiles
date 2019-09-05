@@ -3,7 +3,7 @@ from src.commands.base_command import BaseCommand
 
 
 class ListProfiles(BaseCommand):
-    def execute(self):
+    def execute(self) -> None:
         """Lists the available git-profile profiles."""
 
         # Try to get the locally and globally active profiles

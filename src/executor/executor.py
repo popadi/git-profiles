@@ -8,7 +8,7 @@ from src.commands.update_profile import UpdateProfile
 from src.commands.use_profile import UseProfile
 
 
-def execute_command(args):
+def execute_command(args: any) -> None:
     commands = {
         "add": AddProfile,
         "use": UseProfile,

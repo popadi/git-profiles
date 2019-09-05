@@ -4,7 +4,7 @@ from src.git_manager.git_manager import GitManager
 
 
 class BaseCommand(ABC):
-    def __init__(self, args):
+    def __init__(self, args: any) -> None:
         self.args = args
         self.quiet = args.quiet
         self.globally = args.globally
@@ -14,5 +14,5 @@ class BaseCommand(ABC):
         )
 
     @abstractmethod
-    def execute(self):
+    def execute(self) -> None:
         """Executes a command using the given arguments"""
