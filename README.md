@@ -11,8 +11,10 @@
 </div>
 
 # About
+Soon
 
 # Install
+Soon
 
 # Usage
 ```
@@ -52,6 +54,7 @@ optional arguments:
 ```
 
 # Examples
+Soon
 
 # License
 MIT © 2019 Pop Adrian
