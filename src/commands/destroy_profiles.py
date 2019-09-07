@@ -4,7 +4,7 @@ from src.commands.base_command import BaseCommand
 
 class DestroyProfiles(BaseCommand):
     def execute(self) -> None:
-        """Lists the available git-profile profiles."""
+        """Lists the available git-profiles profiles."""
         # Gather the existing profiles
         available_profiles = self.git_manager.list_profiles()
 

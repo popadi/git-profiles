@@ -1,10 +1,10 @@
 <div align="center">
-    <h1 align="center">👥 git-profile</h1>
+    <h1 align="center">👥 git-profiles</h1>
     <p align="center">Python package that helps you easily manage and switch between multiple git configurations</p>
     <p align="center">
-        <a href="https://github.com/popadi/git-profile">
-            <img src="https://travis-ci.com/popadi/git-profile.svg?branch=master" alt="Build">
-            <img src="https://coveralls.io/repos/github/popadi/git-profile/badge.svg?branch=master&service=github">
+        <a href="https://github.com/popadi/git-profiles">
+            <img src="https://travis-ci.com/popadi/git-profiles.svg?branch=master" alt="Build">
+            <img src="https://coveralls.io/repos/github/popadi/git-profiles/badge.svg?branch=master&service=github">
             <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License">
         </a>
     </p>
@@ -21,7 +21,7 @@ Soon
 usage: git_profile.py [-h] [-f [PATH]] [-g] [-v] [-q]
                       {list,current,destroy,add,use,del,update,show} ...
 
-git-profile usage:
+git-profiles usage:
 
 positional arguments:
   {list,current,destroy,add,use,del,update,show}
@@ -57,7 +57,7 @@ optional arguments:
 
 ### Adding a profile
 ```
-$ git-profile add work
+$ git-profiles add work
 Enter the profile user: Adrian Pop
 Enter the profile mail: adrianpop@work.domain.com
 Enter the profile profile signing key: ABCD1234WXYZ
@@ -70,7 +70,7 @@ Enter the profile profile signing key: ABCD1234WXYZ
 
 ### Updating the details of a profile
 ```
-$ git-profile update work
+$ git-profiles update work
 Enter the new user (Adrian Pop): Pop Adrian
 Enter the new mail (adrianpop@work.domain.com): work@domain.com
 Enter the new signing key (ABCD1234WXYZ): WXYZ1234ABCD
@@ -83,16 +83,16 @@ Enter the new signing key (ABCD1234WXYZ): WXYZ1234ABCD
 
 ### Removing a profile
 ```
-$ git-profile del work-account
+$ git-profiles del work-account
 [ERROR] Profile work-account was not found
 
-$ git-profile del work
+$ git-profiles del work
 [INFO] Successfully deleted profile work
 ```
 
 ### Listing the existing profiles
 ```
-$ git-profile list
+$ git-profiles list
 Available profiles:
 	main <-- active globally
 	work
@@ -102,7 +102,7 @@ Available profiles:
 
 ### Show details about a profile
 ```
-$ git-profile show work
+$ git-profiles show work
 work
 	Name: Adrian Pop
 	Mail: adrianpop@work.domain.com
@@ -111,13 +111,13 @@ work
 
 ### Using a profile
 ```
-$ git-profile -g use home
+$ git-profiles -g use home
 [INFO] Switched to home globally
 
-$ git-profile use work
+$ git-profiles use work
 [INFO] Switched to work locally
 
-$ git-profile list
+$ git-profiles list
 Available profiles:
 	main
 	work <-- active locally
@@ -127,12 +127,12 @@ Available profiles:
 
 ### Delete all the profiles
 ```
-$ git-profile destroy
+$ git-profiles destroy
 [INFO] Successfully deleted 4 profiles
 ```
 
 # Credits
-Thanks to Zeeshan Ahmad for inspiring me to write this package for python. You can check his equivalent package written in php [here](https://github.com/ziishaned/git-profile).
+Thanks to Zeeshan Ahmad for inspiring me to write this package for python. You can check his equivalent package written in php [here](https://github.com/ziishaned/git-profiles).
 
 # License
 MIT © 2019 Pop Adrian

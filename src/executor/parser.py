@@ -8,7 +8,7 @@ A = TypeVar('A', bound='ArgumentParser')
 
 
 def get_arguments_parser() -> A:
-    args_parser = ArgumentParser(description="git-profile usage:")
+    args_parser = ArgumentParser(description="git-profiles usage:")
     args_parser.add_argument("-f", "--file", nargs="?", metavar="PATH", help=msg.HELP_CONFIG)
     args_parser.add_argument("-g", "--globally", action="store_true", help=msg.HELP_GLOBAL)
     args_parser.add_argument("-v", "--version", action="version", version=__version__)

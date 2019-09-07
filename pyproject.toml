@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "git-profile"
+name = "git-profiles"
 version = "1.0.0"
 description = "Python package that helps you easily manage and switch between multiple git profiles."
 authors = ["Adrian Pop <popadrian1996@gmail.com>"]
