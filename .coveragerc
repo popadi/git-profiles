@@ -1,5 +1,5 @@
 [report]
-omit = src/git_profile.py, src/git_manager/git_manager.py
+omit = src/git_profiles.py, src/git_manager/git_manager.py
 exclude_lines =
     # Have to re-enable the standard pragma
     pragma: no cover
