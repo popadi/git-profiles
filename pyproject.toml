@@ -1,9 +1,11 @@
 [tool.poetry]
 name = "git-profiles"
-version = "1.0.0"
+version = "1.0.1"
 description = "Python package that helps you easily manage and switch between multiple git profiles."
 authors = ["Adrian Pop <popadrian1996@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/popadi/git-profiles"
 
 [tool.poetry.dependencies]
 python = "^3.6"
