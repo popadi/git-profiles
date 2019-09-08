@@ -1,6 +1,11 @@
 from src.executor import executor, parser
 
-if __name__ == "__main__":
-    parser = parser.get_arguments_parser()
-    arguments = parser.parse_args()
+
+def main():
+    p = parser.get_arguments_parser()
+    arguments = p.parse_args()
     executor.execute_command(arguments)
+
+
+if __name__ == "__main__":
+    main()
