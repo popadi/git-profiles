@@ -1,11 +1,22 @@
 [tool.poetry]
 name = "git-profiles"
-version = "1.0.1"
+version = "1.0.0"
 description = "Python package that helps you easily manage and switch between multiple git profiles."
 authors = ["Adrian Pop <popadrian1996@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/popadi/git-profiles"
+repository = "https://github.com/popadi/git-profiles"
+keywords = ["git", "profiles", "git-profiles", "multiple"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Version Control :: Git",
+]
+include = [
+    "LICENSE",
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -15,6 +26,10 @@ flake8 = "^3.7"
 pytest = "^5.1"
 pytest-cov = "^2.7"
 mypy = "^0.720.0"
+tox = "^3.14"
+
+[tool.poetry.scripts]
+git-profiles = "src:git_profiles"
 
 [build-system]
 requires = ["poetry>=0.12"]
