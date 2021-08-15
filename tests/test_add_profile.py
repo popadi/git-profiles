@@ -82,6 +82,9 @@ class TestAddProfile:
         assert msg.BUILD_REQUIRED in out
         assert not err
 
+        arguments = arg_parser.parse_args(["del", "test_add_profile_ok"])
+        executor.execute_command(arguments)
+
     def test_add_profile_quiet(self, capsys, monkeypatch):
         arg_parser = parser.get_arguments_parser()
         arguments = arg_parser.parse_args(["-q", "add", "test_add_profile_ok"])
